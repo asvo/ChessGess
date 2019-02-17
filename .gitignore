@@ -1,0 +1,13 @@
+Library/
+library/
+obj/
+Obj/
+Temp/
+temp/
+
+
+*.sln
+*.csproj
+
+#vscode local settings
+.vscode/

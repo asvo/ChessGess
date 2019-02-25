@@ -66,6 +66,7 @@ namespace Asvo
                 AnimatorState animatorState = stateMachine.AddState(clip.name);
                 animatorState.motion = clip;
                 var stateTransistion = stateMachine.AddAnyStateTransition(animatorState);
+                stateTransistion.hasExitTime = true;
             }
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
@@ -105,11 +106,13 @@ namespace Asvo
             float ethenalTime = 0.2f;
             for (int i = 0; i < fileInfos.Length; ++i)
             {
-                Debug.LogWarningFormat("load sprite path={0}", Path.Combine(ParseFullPathToAssetPath(fileInfos[i].FullName), fileInfos[i].Name));
-                Sprite sp = AssetDatabase.LoadAssetAtPath<Sprite>(Path.Combine(ParseFullPathToAssetPath(fileInfos[i].FullName), fileInfos[i].Name));
+                string loadPath = ParseFullPathToAssetPath(fileInfos[i].FullName);
+                Debug.LogWarningFormat("load sprite path={0}", loadPath);
+                Sprite sp = AssetDatabase.LoadAssetAtPath<Sprite>(loadPath);
                 var objectReferenceKeyframe = new ObjectReferenceKeyframe();
                 objectReferenceKeyframe.time = i * ethenalTime;
                 objectReferenceKeyframe.value = sp;
+                objectReferenceKeyframes[i] = objectReferenceKeyframe;
             }
             clip.frameRate = 30;
             //save clip

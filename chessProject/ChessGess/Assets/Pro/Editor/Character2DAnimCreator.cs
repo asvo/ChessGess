@@ -96,7 +96,7 @@ namespace Asvo
         static AnimationClip GenerateAnimClip(string modelName, string clipName, FileInfo[] fileInfos)
         {
             AnimationClip clip = new AnimationClip();
-            AnimationUtility.SetAnimationType(clip, ModelImporterAnimationType.Generic);
+            //AnimationUtility.SetAnimationType(clip, ModelImporterAnimationType.Generic);
             EditorCurveBinding editorCurveBinding = new EditorCurveBinding();
             editorCurveBinding.type = typeof(SpriteRenderer);
             editorCurveBinding.path = "";

@@ -10,6 +10,7 @@ namespace Asvo
 {
     public class CRoleBorn : CStateBase
     {
+        private CRenderCom m_renderCom;
         public CRoleBorn(CFSMMgr fSMMgr) : base(fSMMgr)
         {
             StateID = (int)E_RoleState.Born;
@@ -19,11 +20,22 @@ namespace Asvo
         public override void OnEnterState()
         {
             base.OnEnterState();
+            m_renderCom = Entity.GetComponent<CRenderCom>();
         }
-
+        
+        public override void OnUpdate(){
+            if (m_renderCom.IsInited)
+            {
+                //play born vfx...
+                //
+                StateTransite((int)E_RoleState.Idle);
+            }
+        }
+        
         public override void OnExitState()
         {
             base.OnExitState();
+            m_renderCom = null;
         }
     }
 }

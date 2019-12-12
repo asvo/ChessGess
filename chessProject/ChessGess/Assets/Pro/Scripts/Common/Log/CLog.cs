@@ -9,6 +9,8 @@ namespace Asvo.Common
         ALL = 0, //默认全部
         InitGame,
         Battle,
+        Battle_Role_State,  //战斗-角色状态
+        Animation,
         Table,
         ECS_DEBUG,
         FSM_DEBUG,

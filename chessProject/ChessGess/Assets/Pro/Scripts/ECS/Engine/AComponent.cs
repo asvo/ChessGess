@@ -47,7 +47,7 @@ namespace Asvo.ECS
 		public void Clear(){
 			OnDestroy();
             IsValid = false;
-            Entity = null;
+            m_entity = null;
 		}
 
 		protected abstract void OnDestroy();

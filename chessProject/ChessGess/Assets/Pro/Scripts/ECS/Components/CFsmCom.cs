@@ -14,13 +14,19 @@ namespace Asvo
         public CFSMMgr FsmMgr { get; protected set; }
 
         public CFsmCom()
-        {
+        {            
             FsmMgr = new CFSMMgr();
+        }
+
+        protected override void OnBindEntity()
+        {
+            FsmMgr.Owner = this.Entity;
         }
 
         protected override void OnDestroy()
         {
             FsmMgr.Clear();
+            FsmMgr.Owner = null;
             FsmMgr = null;
         }
     }

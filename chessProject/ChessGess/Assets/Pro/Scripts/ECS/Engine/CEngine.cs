@@ -11,7 +11,7 @@ namespace Asvo.ECS
 {
 	public class CEngine : ISingelton<CEngine>{
 
-		private Dictionary<ulong, CEntity> m_entityDict;		
+		private Dictionary<ulong, CEntity> m_entityDict;
 		private APhase m_logicPhase;
 		private APhase m_physicPhase;
 		private List<APhase> m_phases;
@@ -40,7 +40,7 @@ namespace Asvo.ECS
 			}		
 			m_entityDict.Add(entity.BaseId, entity);
 		}
-
+		
 		public void RemoveEntity(CEntity entity)
 		{
 			foreach(var phase in m_phases)
@@ -48,6 +48,7 @@ namespace Asvo.ECS
 				phase.OnRemoveEntity(entity);
 			}
 			m_entityDict.Remove(entity.BaseId);
+            entity.Destroy();
 			//entity.rest() to pool
 		}
 
@@ -110,6 +111,27 @@ namespace Asvo.ECS
 		public void FixUpdate(float deltaT)
 		{
 			m_physicPhase.Update(deltaT);
+		}
+
+		public CEntity FindEntityByVaseID(uint entityBaseId)
+		{
+			CEntity entity = null;
+			m_entityDict.TryGetValue(entityBaseId, out entity);
+			return entity;
+		}
+
+		public T GetSystem<T>() where T : ASystem
+		{
+			foreach(var phase in m_phases)
+			{
+				foreach(var sys in phase.Systems)
+				{
+					var t = sys as T;
+					if (null != t)
+						return t;
+				}
+			}
+			return null;
 		}
 	}
 }

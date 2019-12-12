@@ -12,7 +12,8 @@ namespace Asvo
 	public class CAttributeCom : AComponent {
         public uint ID;
         public RoleConfig Config;
-		public uint Hp;
+		public int Hp;
+		public E_BattleGroupType BattleGroupType;
 		protected Dictionary<E_AttributeType, uint> m_attriDict;
 
 		public CAttributeCom()
@@ -29,6 +30,11 @@ namespace Asvo
 		public uint GetAttr(E_AttributeType attributeType)
 		{
 			return m_attriDict[attributeType];
+		}
+
+		public bool IsAlive()
+		{
+			return Hp > 0;
 		}
 
         protected override void OnDestroy()

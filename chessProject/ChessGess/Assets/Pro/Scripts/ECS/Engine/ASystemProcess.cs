@@ -37,57 +37,39 @@ namespace Asvo.ECS
         
 		public void MatchAdd(CEntity entity)
 		{
-			Match(entity, m_compoTypes, m_system);
-		}
-
-		public void MatchRemove(CEntity entity)
-		{
-			Match(entity, m_compoTypes, m_system);
-		}
-
-		protected void Match(CEntity entity, List<Type> matchTypes, ASystem system)
-		{
-			if (EntityList.HasEntity(entity))
+            if (EntityList.HasEntity(entity))
             {
-                InternalEntityChange(EntityList, entity, matchTypes, system);
+                bool isEntityDeled = EntityList.RemoveEntity(entity);
+                if (entity.HasComponents(m_compoTypes))
+                {
+                    EntityList.AddEntity(entity);
+                }
+                if (m_system != null)
+                {
+                    m_system.UpdateRemoveEntity(entity);
+                }
             }
-            else if (entity.HasComponents(matchTypes))
+            if (entity.HasComponents(m_compoTypes))
             {
                 EntityList.AddEntity(entity);
 
-                if (system != null)
+                if (m_system != null)
                 {
-                    system.UpdateAddEntity(entity);
-                }
-            }
-		}
-
-		private void InternalEntityChange(CEntityList entityList, CEntity entity, List<Type> matchTypes, ASystem system)
-        {
-            bool isEntityDeled = entityList.RemoveEntity(entity);
-            bool isEntityAdded = false;
-
-            if (entity.HasComponents(matchTypes))
-            {
-                entityList.AddEntity(entity);
-                isEntityAdded = true;
-            }
-
-            if (isEntityAdded == false && isEntityDeled)
-            {
-                if (system != null)
-                {
-                    system.UpdateRemoveEntity(entity);
-                }
-            }
-
-            if (isEntityDeled == false && isEntityAdded)
-            {
-                if (system != null)
-                {
-                    system.UpdateAddEntity(entity);
+                    m_system.UpdateAddEntity(entity);
                 }
             }
         }
+
+		public void MatchRemove(CEntity entity)
+		{
+            if (EntityList.HasEntity(entity))
+            {
+                bool isEntityDeled = EntityList.RemoveEntity(entity);
+                if (m_system != null)
+                {
+                    m_system.UpdateRemoveEntity(entity);
+                }
+            }
+		}
 	}
 }

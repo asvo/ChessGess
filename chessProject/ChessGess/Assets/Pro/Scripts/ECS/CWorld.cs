@@ -13,9 +13,15 @@ namespace Asvo
 	public class CWorld : MonoBehaviour {
 		
 		protected void Start()
-		{
+		{			
 			CEngine.Instance.AddPhysicSys(new CMoveSys());
-            CEngine.Instance.AddLogicSys(new CLoadSys());            
+            CEngine.Instance.AddLogicSys(new CLoadSys());
+
+			CEngine.Instance.AddLogicSys(new CFsmSys());
+			CEngine.Instance.AddLogicSys(new CBattleEntitySys());
+
+			//init scene
+			SceneGlobal.Root3D = GameObject.Find("RootB").transform;
 		}
 		
 		protected void Update()
@@ -31,26 +37,11 @@ namespace Asvo
         //test
         void OnGUI()
         {
-            if (GUILayout.Button("Test-CreateEntity"))
+            if (GUILayout.Button("Test-Battle"))
             {
-                CreateAEntity();
+                CBattleEntityMgr.Instance.CreateATestEntity(E_BattleGroupType.Teammate);
+				CBattleEntityMgr.Instance.CreateATestEntity(E_BattleGroupType.Enemy);
             }
-        }
-
-        private void CreateAEntity()
-        {
-            var fsmCom = new CFsmCom();
-            new CRoleBorn(fsmCom.FsmMgr);
-            new CIdleState(fsmCom.FsmMgr);
-            var entity = CEngine.Instance.CreateEntity(new System.Collections.Generic.List<AComponent>
-                    {
-                        new CAttributeCom(){Config = new RoleConfig(){Name = "soldier01", AssetName = "black01"}},
-                        new CTransCom(),
-                        new CRenderCom(),
-                        new CEntityTypeCom(){EntityType = E_EntityType.Role},
-                        fsmCom
-                    });
-            CEngine.Instance.AddEntity(entity);
         }
 	}
 }

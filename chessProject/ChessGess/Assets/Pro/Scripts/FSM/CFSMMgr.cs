@@ -12,6 +12,7 @@ namespace Asvo.FSM
 	public class CFSMMgr {
         protected Dictionary<int, CStateBase> m_stateDict;
         protected CStateBase m_curretState;
+        public object Owner;
         public CFSMMgr()
         {
             m_stateDict = new Dictionary<int, CStateBase>(4);
@@ -20,12 +21,9 @@ namespace Asvo.FSM
 
         public void AddState(CStateBase state)
         {
-            m_stateDict.Add(state.StateID, state);
-            //set first added-state to default state
-            if (m_curretState == null)
-                SetCurrentState(state.StateID);
+            m_stateDict.Add(state.StateID, state);            
         }
-
+        
         protected CStateBase GetState(int stateID)
         {
             CStateBase state = null;

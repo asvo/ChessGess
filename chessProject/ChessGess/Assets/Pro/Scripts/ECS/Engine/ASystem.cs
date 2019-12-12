@@ -26,7 +26,8 @@ namespace Asvo.ECS
 		{
 			Type = GetType();
 			Name = Type.Name;
-		}
+            RegisterSignals();
+        }
 
 		protected virtual void RegisterSignals(){}
 		protected virtual void UnregisterSignals(){}

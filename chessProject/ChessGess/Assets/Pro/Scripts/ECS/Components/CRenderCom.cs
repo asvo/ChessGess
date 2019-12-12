@@ -32,9 +32,17 @@ namespace Asvo
 
         protected override void OnDestroy()
         {
-            //destroy(Gameobject)??
+            ClearRenderer();
             IsAssetLoaded = false;
             IsInited = false;
+        }
+
+        private void ClearRenderer()
+        {
+            if (GameObject != null)
+            {
+                Object.Destroy(GameObject);
+            }
         }
     }
 }

@@ -10,6 +10,20 @@ namespace Asvo.FSM
 	public abstract class CStateBase {
         public int StateID { get; protected set; }
         protected CFSMMgr m_fsmMgr;
+        private Asvo.ECS.CEntity _owner;
+        protected Asvo.ECS.CEntity Entity
+        {
+            get{
+                if (null != _owner)
+                    return _owner;
+                if (null != m_fsmMgr)
+                {
+                    _owner = m_fsmMgr.Owner as Asvo.ECS.CEntity;
+                    return _owner;
+                }
+                return null;
+            }
+        }
         public CStateBase(CFSMMgr fSMMgr)
         {
             m_fsmMgr = fSMMgr;
